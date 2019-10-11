@@ -10,11 +10,11 @@ export interface IUser extends Document {
 }
 
 export interface IntUser extends IUser {
-  generateAuthToken: () => string;
+  generateAuthToken: () => Promise<string>;
 }
 
 export interface IntUserModel extends Model<IUser> {
-  findByCredentials: (username: string, password: string) => IntUser;
+  findByCredentials: (username: string, password: string) => Promise<IntUser>;
 }
 
 const userSchema = new mongoose.Schema(
@@ -51,7 +51,7 @@ userSchema.methods.toJSON = function(): Document {
   return userObject;
 };
 
-userSchema.methods.generateAuthToken = async function(): Promise<string> {
+userSchema.methods.generateAuthToken = async function() {
   const token: string = jwt.sign(
     { _id: this._id.toString() },
     process.env.JWT_SECRET || ''

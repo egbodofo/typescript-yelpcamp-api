@@ -69,30 +69,26 @@ router.post('/users', function (req, res) { return __awaiter(void 0, void 0, voi
 }); });
 // Login route
 router.post('/users/login', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var user, token, e_2;
+    var user, token;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0:
-                _a.trys.push([0, 3, , 4]);
-                return [4 /*yield*/, user_1.default.findByCredentials(req.body.username, req.body.password)];
+            case 0: return [4 /*yield*/, user_1.default.findByCredentials(req.body.username, req.body.password)];
             case 1:
                 user = _a.sent();
                 return [4 /*yield*/, user.generateAuthToken()];
             case 2:
                 token = _a.sent();
+                if (!user) {
+                    res.status(400).send();
+                }
                 res.send({ user: user, token: token });
-                return [3 /*break*/, 4];
-            case 3:
-                e_2 = _a.sent();
-                res.status(400).send();
-                return [3 /*break*/, 4];
-            case 4: return [2 /*return*/];
+                return [2 /*return*/];
         }
     });
 }); });
 // Log out route
 router.post('/users/logout', auth_1.default, function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var e_3;
+    var e_2;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
@@ -109,7 +105,7 @@ router.post('/users/logout', auth_1.default, function (req, res) { return __awai
                 res.send();
                 return [3 /*break*/, 4];
             case 3:
-                e_3 = _a.sent();
+                e_2 = _a.sent();
                 res.status(500).send();
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
